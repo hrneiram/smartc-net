@@ -3,7 +3,7 @@ name: CI - Backend .NET
 on:
   push:
     branches: [ main ]
-  pull_branches:
+  pull_request:
     branches: [ main ]
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup /NET
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.103'
@@ -25,4 +25,8 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
+      working-directory: SmartC
+
+    - name: Test
+      run: dotnet test --no-build --configuration Release
       working-directory: SmartC
