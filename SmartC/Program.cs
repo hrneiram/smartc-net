@@ -1,9 +1,14 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SmartC.Data;
 using SmartC.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql("Host=localhost;Database=smartc;Username=hanssel;Password=T3t1ngPasword"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

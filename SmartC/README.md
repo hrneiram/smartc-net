@@ -37,6 +37,7 @@ sudo apt install -y postgresql postgresql-contrib
 # Activate the service
 sudo systemctl start postgresql
 
+# Enter in postgres
 sudo -i -u postgres
 ```
 
@@ -48,10 +49,28 @@ createdb smartc
 exit
 ```
 
+for adding the password
+```postgres
+psql
+ALTER ROLE user WITH PASSWORD 'password';
+\q
+```
+
 verify the database was created:
 
 ```bash
 psql -d smartc -c "SELECT 1;"
+```
+
+Enter in the database and add users:
+```bash
+psql
+\c smartc
+INSERT INTO "Users" ("Email", "Password", "Role")
+VALUES ('admin@example.com', 'TuPasswordPlanoOMejorsHasheada', 1);  -- 1 = Admin
+INSERT INTO "Users" ("Email", "Password", "Role")
+VALUES ('viewer@example.com', 'TuPasswordPlanoOMejorsHasheada', 0);  -- 0 = Admin
+SELECT * FROM "Users";
 ```
 
 3) Add packages
@@ -59,11 +78,29 @@ psql -d smartc -c "SELECT 1;"
 ```bash
 # Authentication dependency
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
 # Swagger
 dotnet add package Swashbuckle.AspNetCore
-# Add Git ignore file
+
+# Git ignore file, this was moved and edited in the root folder
 dotnet new gitignore
+
+# Add entity framework core (transitive dependecy) and postgres support
+# It is used to create the DbContext
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+
+# Add support for migrations in EntityFramework
+dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
+
+4) Migration first time
+
+```bash
+dotnet tool install --global dotnet-ef
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
 
 **Commands to run the project**
 ```bash

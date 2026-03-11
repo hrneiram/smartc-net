@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using SmartC.Data;
 using SmartC.DTOs;
 using SmartC.Models;
 
@@ -10,21 +11,23 @@ namespace SmartC.Services;
 public class AuthService : IAuthService
 {
     private readonly IConfiguration _config;
+    private readonly AppDbContext _appDbContext;
 
-    private static readonly List<User> _users = new()
-    {
-        new User { Id = 1, Email = "admin@test.com", Password = "admin123", Role = Role.Admin },
-        new User { Id = 2, Email = "viewer@test.com", Password = "viewer123", Role = Role.Viewer }
-    };
+    // private static readonly List<User> _users = new()
+    // {
+    //     new User { Id = 1, Email = "admin@test.com", Password = "admin123", Role = Role.Admin },
+    //     new User { Id = 2, Email = "viewer@test.com", Password = "viewer123", Role = Role.Viewer }
+    // };
 
-    public AuthService(IConfiguration config)
+    public AuthService(IConfiguration config, AppDbContext appDbContext)
     {
         _config = config;
+        _appDbContext = appDbContext;
     }
 
     public AuthResponseDto Login(LoginDto dto)
     {
-        User? user = _users.FirstOrDefault(user =>
+        User? user = _appDbContext.Users.FirstOrDefault(user =>
         user.Email == dto.Email &&
         user.Password == dto.Password
         );
@@ -39,7 +42,7 @@ public class AuthService : IAuthService
     }
     public User Register(RegisterDto dto)
     {
-        if (_users.Any(user => user.Email == dto.Email))
+        if (_appDbContext.Users.Any(user => user.Email == dto.Email))
             throw new InvalidOperationException("The email is already registered");
 
         User user = new User
@@ -49,7 +52,7 @@ public class AuthService : IAuthService
             Role = Role.Viewer
         };
 
-        _users.Add(user);
+        _appDbContext.Users.Add(user);
         return user;
     }
 
