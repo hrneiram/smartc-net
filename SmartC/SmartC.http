@@ -1,0 +1,6 @@
+@SmartC_HostAddress = http://localhost:5043
+
+GET {{SmartC_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

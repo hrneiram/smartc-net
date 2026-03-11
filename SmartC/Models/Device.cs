@@ -1,0 +1,4 @@
+// id
+// name
+// os
+// status`
