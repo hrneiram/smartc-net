@@ -1,0 +1,20 @@
+# --- .NET (Backend: SmartC) ---
+[Bb]in/
+[Oo]bj/
+appsettings.Development.json
+*.user
+*.userosscache
+*.sln.dotSettings.user
+.vs/
+
+# --- React/Vite (Frontend: SmartC-Frontend) ---
+SmartC-Frontend/node_modules/
+SmartC-Frontend/dist/
+SmartC-Frontend/.env
+SmartC-Frontend/.env.local
+SmartC-Frontend/npm-debug.log*
+
+# --- IDE Tools ---
+.vscode/
+.idea/
+.DS_Store

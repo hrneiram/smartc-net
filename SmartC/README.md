@@ -61,6 +61,8 @@ psql -d smartc -c "SELECT 1;"
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 # Swagger
 dotnet add package Swashbuckle.AspNetCore
+# Add Git ignore file
+dotnet new gitignore
 ```
 
 **Commands to run the project**
